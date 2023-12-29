@@ -8,40 +8,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-/*
-Bind to port 6379!
-
-1. Socket Creation (socket):
-
-The program begins by creating a socket using socket(AF_INET, SOCK_STREAM, 0). This creates a socket using IPv4 (AF_INET) and TCP (SOCK_STREAM).
-The function returns a file descriptor (server_fd) that represents the socket.
-
-2. Set Socket Option (setsockopt):
-
-The setsockopt function is used to set socket options. In this case, it sets the SO_REUSEPORT option to allow the reuse of the port.
-This is useful to avoid "Address already in use" errors, especially when restarting the program frequently.
-
-3. Bind to Address and Port (bind):
-
-The program then sets up the server address structure (server_addr) with the specified IPv4 address (INADDR_ANY) and port number (6379).
-The bind function associates the socket with the address and port specified in server_addr.
-
-4. Listen for Connections (listen):
-
-The listen function puts the server socket in listening mode, with a maximum backlog of pending connections specified by connection_backlog (in this case, 5).
-
-5. Accept a Connection (accept):
-
-The program then waits for a client to connect using the accept function. This is a blocking call that returns a new file descriptor for the accepted connection.
-The client's address information is stored in client_addr.
-
-6. Logging and Cleanup:
-
-The program prints messages to indicate the progress ("Waiting for a client to connect..." and "Client connected").
-Finally, the server socket is closed using close(server_fd).
-
-*/
-
 int main(int argc, char **argv) {
   std::cout << "Logs:\n";
 
@@ -80,9 +46,18 @@ int main(int argc, char **argv) {
   
   std::cout << "Waiting for a client to connect...\n";
   
-  accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
+  int server_socket = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
-  
+
+  char buffer[1024] = { 0 };
+  ssize_t valread;
+  valread = read(server_socket, buffer,
+                   1024 - 1);
+  std::cout << buffer;
+
+  char* hello = "+PONG\r\n";
+  send(server_socket, hello, strlen(hello), 0);
+
   close(server_fd);
 
   return 0;
