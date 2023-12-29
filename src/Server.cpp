@@ -52,17 +52,17 @@ int main(int argc, char **argv) {
   
   std::cout << "Waiting for a client to connect...\n";
   
-  int server_socket_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
+  server_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
 
   char buffer[1024] = { 0 };
   ssize_t valread;
-  valread = read(server_socket_fd, buffer,
+  valread = read(server_fd, buffer,
                    1024 - 1);
   std::cout << buffer;
 
 
-  send_msg(server_socket_fd, PONG_MSG);
+  send_msg(server_fd, PONG_MSG);
 
   close(server_fd);
 
