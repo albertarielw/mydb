@@ -16,6 +16,7 @@ def main():
     # Send the message to the server
     client_socket.sendall(message.encode())
 
+
     print("Message sent successfully")
 
     # Wait for the response from the server

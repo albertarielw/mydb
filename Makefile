@@ -153,6 +153,30 @@ src/Server.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Server.cpp.s
 .PHONY : src/Server.cpp.s
 
+src/SocketManager.o: src/SocketManager.cpp.o
+.PHONY : src/SocketManager.o
+
+# target to build an object file
+src/SocketManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/SocketManager.cpp.o
+.PHONY : src/SocketManager.cpp.o
+
+src/SocketManager.i: src/SocketManager.cpp.i
+.PHONY : src/SocketManager.i
+
+# target to preprocess a source file
+src/SocketManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/SocketManager.cpp.i
+.PHONY : src/SocketManager.cpp.i
+
+src/SocketManager.s: src/SocketManager.cpp.s
+.PHONY : src/SocketManager.s
+
+# target to generate assembly for a file
+src/SocketManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/SocketManager.cpp.s
+.PHONY : src/SocketManager.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... src/Server.o"
 	@echo "... src/Server.i"
 	@echo "... src/Server.s"
+	@echo "... src/SocketManager.o"
+	@echo "... src/SocketManager.i"
+	@echo "... src/SocketManager.s"
 .PHONY : help
 
 
