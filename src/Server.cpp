@@ -1,3 +1,8 @@
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <cstring>
+#include <unistd.h>
 #include "Server.h"
 
 void Server::run() {
