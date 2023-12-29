@@ -10,6 +10,13 @@
 
 const char* PONG_MSG = "+PONG\r\n";
 
+void recv_msg(int socket_fd) {
+  const int buffer_size = 1024;
+  char buffer[buffer_size] = { 0 };
+  read(socket_fd, buffer, buffer_size - 1);
+  std::cout << buffer << "\n";
+}
+
 void send_msg(int socket_fd, const char * msg) {
   send(socket_fd, msg, strlen(msg), 0);
 }
@@ -55,12 +62,7 @@ int main(int argc, char **argv) {
   server_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
 
-  char buffer[1024] = { 0 };
-  ssize_t valread;
-  valread = read(server_fd, buffer,
-                   1024 - 1);
-  std::cout << buffer;
-
+  recv_msg(server_fd);
 
   send_msg(server_fd, PONG_MSG);
 
