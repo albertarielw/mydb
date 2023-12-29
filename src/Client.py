@@ -11,7 +11,7 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "Hello, Redis!"
+    message = "ping\nping"
 
     # Send the message to the server
     client_socket.sendall(message.encode())

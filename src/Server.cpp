@@ -8,17 +8,26 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+const int MSG_SIZE_MAX = 1024;
 const char* PONG_MSG = "+PONG\r\n";
 
-void recv_msg(int socket_fd) {
-  const int buffer_size = 1024;
-  char buffer[buffer_size] = { 0 };
-  read(socket_fd, buffer, buffer_size - 1);
-  std::cout << buffer << "\n";
+void recv_msg(int socket_fd, char * msg) {
+  read(socket_fd, msg, MSG_SIZE_MAX - 1);
 }
 
 void send_msg(int socket_fd, const char * msg) {
   send(socket_fd, msg, strlen(msg), 0);
+}
+
+void process_msg(int socket_fd, char * msg) {
+  const char *PING_MSG = "ping";
+  char *t; 
+
+  for (t = msg; *t != '\0'; t++) {
+    if (*t == 'p' && strncmp(t, PING_MSG, strlen(PING_MSG)) == 0) {
+      send_msg(socket_fd, PONG_MSG);
+    }
+  }
 }
 
 int main(int argc, char **argv) {
@@ -62,9 +71,10 @@ int main(int argc, char **argv) {
   server_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
 
-  recv_msg(server_fd);
+  char msg[MSG_SIZE_MAX];
+  recv_msg(server_fd, msg);
 
-  send_msg(server_fd, PONG_MSG);
+  process_msg(server_fd, msg);
 
   close(server_fd);
 
