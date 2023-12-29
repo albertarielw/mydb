@@ -8,6 +8,12 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+const char* PONG_MSG = "+PONG\r\n";
+
+void send_msg(int socket_fd, const char * msg) {
+  send(socket_fd, msg, strlen(msg), 0);
+}
+
 int main(int argc, char **argv) {
   std::cout << "Logs:\n";
 
@@ -46,17 +52,17 @@ int main(int argc, char **argv) {
   
   std::cout << "Waiting for a client to connect...\n";
   
-  int server_socket = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
+  int server_socket_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
 
   char buffer[1024] = { 0 };
   ssize_t valread;
-  valread = read(server_socket, buffer,
+  valread = read(server_socket_fd, buffer,
                    1024 - 1);
   std::cout << buffer;
 
-  char* hello = "+PONG\r\n";
-  send(server_socket, hello, strlen(hello), 0);
+
+  send_msg(server_socket_fd, PONG_MSG);
 
   close(server_fd);
 
