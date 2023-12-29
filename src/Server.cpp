@@ -11,8 +11,8 @@
 const int MSG_SIZE_MAX = 1024;
 const char* PONG_MSG = "+PONG\r\n";
 
-void recv_msg(int socket_fd, char * msg) {
-  read(socket_fd, msg, MSG_SIZE_MAX - 1);
+ssize_t recv_msg(int socket_fd, char * msg) {
+  return read(socket_fd, msg, MSG_SIZE_MAX - 1);
 }
 
 void send_msg(int socket_fd, const char * msg) {
@@ -71,10 +71,17 @@ int main(int argc, char **argv) {
   server_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
 
-  char msg[MSG_SIZE_MAX];
-  recv_msg(server_fd, msg);
+  while (true) {
+    char msg[MSG_SIZE_MAX];
+    ssize_t bytes_recv = recv_msg(server_fd, msg);
 
-  process_msg(server_fd, msg);
+    if (bytes_recv <= 0) {
+      std::cout << "Client disconnected\n";
+      break;
+    }
+
+    process_msg(server_fd, msg);
+  }
 
   close(server_fd);
 
