@@ -9,7 +9,7 @@
 void Server::serve() {
   setup_server();
 
-  
+  service();
 
   close_server();
 }
