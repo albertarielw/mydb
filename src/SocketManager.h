@@ -9,7 +9,7 @@ public:
   void start();
   void stop();
 
-  ssize_t recv_msg(char * msg);
+  ssize_t recv_msg(char * msg, const int length);
   ssize_t send_msg(const char * msg);
 
 private:

@@ -54,8 +54,8 @@ void SocketManager::stop() {
   std::cout << "Connection closed\n"; 
 }
 
-ssize_t SocketManager::recv_msg(char * msg){
-  return read(socket_fd, msg, MAX_MSG_BYTES);
+ssize_t SocketManager::recv_msg(char * msg, const int length){
+  return read(socket_fd, msg, length);
 }
 
 ssize_t SocketManager::send_msg(const char * msg) {

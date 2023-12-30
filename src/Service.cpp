@@ -15,7 +15,7 @@ void Service::serve() {
   while (true) {
     const int MSG_SIZE_MAX = 1024;
     char msg[MSG_SIZE_MAX];
-    ssize_t bytes_recv = socket_manager.recv_msg(msg);
+    ssize_t bytes_recv = socket_manager.recv_msg(msg, MSG_SIZE_MAX);
 
     if (bytes_recv <= 0) {
       std::cout << "Client disconnected\n";
