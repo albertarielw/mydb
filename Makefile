@@ -129,29 +129,29 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
-src/Service.o: src/Service.cpp.o
-.PHONY : src/Service.o
+src/Server.o: src/Server.cpp.o
+.PHONY : src/Server.o
 
 # target to build an object file
-src/Service.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Service.cpp.o
-.PHONY : src/Service.cpp.o
+src/Server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Server.cpp.o
+.PHONY : src/Server.cpp.o
 
-src/Service.i: src/Service.cpp.i
-.PHONY : src/Service.i
+src/Server.i: src/Server.cpp.i
+.PHONY : src/Server.i
 
 # target to preprocess a source file
-src/Service.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Service.cpp.i
-.PHONY : src/Service.cpp.i
+src/Server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Server.cpp.i
+.PHONY : src/Server.cpp.i
 
-src/Service.s: src/Service.cpp.s
-.PHONY : src/Service.s
+src/Server.s: src/Server.cpp.s
+.PHONY : src/Server.s
 
 # target to generate assembly for a file
-src/Service.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Service.cpp.s
-.PHONY : src/Service.cpp.s
+src/Server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Server.cpp.s
+.PHONY : src/Server.cpp.s
 
 src/SocketManager.o: src/SocketManager.cpp.o
 .PHONY : src/SocketManager.o
@@ -210,9 +210,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... server"
-	@echo "... src/Service.o"
-	@echo "... src/Service.i"
-	@echo "... src/Service.s"
+	@echo "... src/Server.o"
+	@echo "... src/Server.i"
+	@echo "... src/Server.s"
 	@echo "... src/SocketManager.o"
 	@echo "... src/SocketManager.i"
 	@echo "... src/SocketManager.s"

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <thread>
-#include "Service.h"
+#include "Server.h"
 
 /*
 TODO:
@@ -10,6 +10,7 @@ TODO:
 */
 
 int main(int argc, char **argv) {
-  Service service;
-  service.serve();
+  Server server;
+
+  server.serve();
 }

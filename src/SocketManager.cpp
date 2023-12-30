@@ -9,7 +9,7 @@
 #include <netdb.h>
 #include "SocketManager.h"
 
-void SocketManager::setup_socket() {
+void SocketManager::setup_socket_manager() {
   socket_manager_fd = socket(AF_INET, SOCK_STREAM, 0);
   if (socket_manager_fd < 0) {
     std::cerr << "Failed to create server socket\n";
@@ -35,11 +35,18 @@ void SocketManager::setup_socket() {
   }
 }
 
-void SocketManager::accept_connection(int & socket_fd) {
+void SocketManager::close_socket_manager() {
+  close(socket_manager_fd);
+  std::cout << "Socket manager connection closed\n"; 
+}
+
+int SocketManager::create_new_connection() {
+  int socket_fd;
+
   int connection_backlog = 5;
   if (listen(socket_manager_fd, connection_backlog) != 0) {
     std::cerr << "listen failed\n";
-    return;
+    return -1;
   }
 
   struct sockaddr_in client_addr;
@@ -49,12 +56,11 @@ void SocketManager::accept_connection(int & socket_fd) {
 
   socket_fd = accept(socket_manager_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected to socket " << socket_fd << "\n";
+
+  return socket_fd;
 }
 
-void SocketManager::close_socket() {
-  close(socket_manager_fd);
-  std::cout << "Connection closed\n"; 
-}
+
 
 ssize_t SocketManager::recv_msg(const int & socket_fd, char * msg, const int length){
   return read(socket_fd, msg, length);

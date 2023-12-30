@@ -1,4 +1,5 @@
 import socket
+import time
 
 def main():
     # Create a socket
@@ -19,6 +20,12 @@ def main():
     print("Message sent successfully")
 
     # Wait for the response from the server
+    response = client_socket.recv(1024).decode()
+
+    print("Received response from server:", response)
+
+    time.sleep(3)
+
     response = client_socket.recv(1024).decode()
 
     # Print the server's response

@@ -5,11 +5,16 @@
 #include <unistd.h>
 #include "SocketManager.h"
 
-class Service {
+class Server {
 public:
   void serve();
 
 private:
+  void setup_server();
+  void close_server();
+  
+  void service(); //TODO: abstract out to service class
+
   SocketManager socket_manager;
 };
 
