@@ -3,6 +3,9 @@
 #include <string>
 #include <cstring>
 #include <unistd.h>
+#include <thread>
+#include <vector>
+#include <functional>
 #include "Server.h"
 #include "SocketManager.h"
 
@@ -11,8 +14,9 @@ void Server::serve() {
 
   std::vector<std::thread> all_threads;
 
-  for (int i = 0; i < 10; ++i) {
-    std::thread service_thread(&Server::service, this);
+  while (true) {
+    int socket_fd = socket_manager.create_new_connection();
+    std::thread service_thread(std::bind(&Server::service, this, socket_fd));
     all_threads.emplace_back(std::move(service_thread));
   }
 
@@ -21,10 +25,12 @@ void Server::serve() {
       all_threads[i].join();
     }
   }
+
+  int socket_fd = socket_manager.create_new_connection();
+  service(socket_fd);
   
   close_server();
 }
-
 
 void Server::setup_server() {
   socket_manager.setup_socket_manager();
@@ -34,8 +40,7 @@ void Server::close_server() {
   socket_manager.close_socket_manager();
 }
 
-void Server::service() {
-  int socket_fd = socket_manager.create_new_connection();
+void Server::service(int socket_fd) {
 
   while (true) {
     const int MSG_SIZE_MAX = 1024;

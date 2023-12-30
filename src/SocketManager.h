@@ -2,6 +2,7 @@
 #define SOCKETMANAGER_H
 
 #include <iostream>
+#include <thread>
 #include <unistd.h>
 
 class SocketManager {

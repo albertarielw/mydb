@@ -4,8 +4,12 @@ set(CMAKE_CXX_STANDARD 20) # Enable the C++20 standard
 
 set(SOURCE_FILES 
     src/main.cpp
-    src/Server.cpp
     src/SocketManager.cpp
+    src/Server.cpp
     )
 
 add_executable(server ${SOURCE_FILES})
+
+# Link the pthread library
+find_package(Threads REQUIRED)
+target_link_libraries(server PRIVATE Threads::Threads)
