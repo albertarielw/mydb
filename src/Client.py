@@ -11,11 +11,10 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "ping\nping"
+    message = "pingping"
 
     # Send the message to the server
     client_socket.sendall(message.encode())
-
 
     print("Message sent successfully")
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unistd.h>
+#include <thread>
 #include "Service.h"
-#include "SocketManager.h"
 
 /*
 TODO:

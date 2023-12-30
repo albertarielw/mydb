@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <unistd.h>
-#include "Service.h"
 #include "SocketManager.h"
 
 class Service {

@@ -47,13 +47,11 @@ void SocketManager::start() {
 
   socket_fd = accept(socket_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
-
-  connection_state = CONNECTED;
 }
 
 void SocketManager::stop() {
   close(socket_fd);
-  connection_state = NOT_CONNECTED;
+  std::cout << "Connection closed\n"; 
 }
 
 ssize_t SocketManager::recv_msg(char * msg){
