@@ -9,10 +9,22 @@
 void Server::serve() {
   setup_server();
 
-  service();
+  std::vector<std::thread> all_threads;
 
+  for (int i = 0; i < 10; ++i) {
+    std::thread service_thread(&Server::service, this);
+    all_threads.emplace_back(std::move(service_thread));
+  }
+
+  for (int i = 0; i < all_threads.size(); ++i) {
+    if (all_threads[i].joinable()) {
+      all_threads[i].join();
+    }
+  }
+  
   close_server();
 }
+
 
 void Server::setup_server() {
   socket_manager.setup_socket_manager();

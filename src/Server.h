@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <thread>
+#include <vector>
 #include "SocketManager.h"
 
 class Server {
@@ -14,7 +16,6 @@ private:
   void close_server();
   
   void service(); //TODO: abstract out to service class
-
   SocketManager socket_manager;
 };
 
