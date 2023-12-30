@@ -6,15 +6,16 @@
 
 class SocketManager {
 public:
-  void start();
-  void stop();
+  void setup_socket();
+  void close_socket();
 
-  ssize_t recv_msg(char * msg, const int length);
-  ssize_t send_msg(const char * msg);
+  void accept_connection(int & socket_fd);
+
+  ssize_t recv_msg(const int & socket_fd, char * msg, const int length);
+  ssize_t send_msg(const int & socket_fd, const char * msg);
 
 private:
-  int socket_fd;
-  const int MAX_MSG_BYTES = 1024;
+  int socket_manager_fd;
 };
 
 #endif

@@ -9,9 +9,9 @@
 #include <netdb.h>
 #include "SocketManager.h"
 
-void SocketManager::start() {
-  socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-  if (socket_fd < 0) {
+void SocketManager::setup_socket() {
+  socket_manager_fd = socket(AF_INET, SOCK_STREAM, 0);
+  if (socket_manager_fd < 0) {
     std::cerr << "Failed to create server socket\n";
     return;
   }
@@ -19,7 +19,7 @@ void SocketManager::start() {
   // Since the tester restarts your program quite often, setting REUSE_PORT
   // ensures that we don't run into 'Address already in use' errors
   int reuse = 1;
-  if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEPORT, &reuse, sizeof(reuse)) < 0) {
+  if (setsockopt(socket_manager_fd, SOL_SOCKET, SO_REUSEPORT, &reuse, sizeof(reuse)) < 0) {
     std::cerr << "setsockopt failed\n";
     return;
   }
@@ -29,13 +29,15 @@ void SocketManager::start() {
   server_addr.sin_addr.s_addr = INADDR_ANY;
   server_addr.sin_port = htons(6379);
   
-  if (bind(socket_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) != 0) {
+  if (bind(socket_manager_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) != 0) {
     std::cerr << "Failed to bind to port 6379\n";
     return;
   }
+}
 
+void SocketManager::accept_connection(int & socket_fd) {
   int connection_backlog = 5;
-  if (listen(socket_fd, connection_backlog) != 0) {
+  if (listen(socket_manager_fd, connection_backlog) != 0) {
     std::cerr << "listen failed\n";
     return;
   }
@@ -45,19 +47,19 @@ void SocketManager::start() {
 
   std::cout << "Waiting for a client to connect...\n";
 
-  socket_fd = accept(socket_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
-  std::cout << "Client connected\n";
+  socket_fd = accept(socket_manager_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
+  std::cout << "Client connected to socket " << socket_fd << "\n";
 }
 
-void SocketManager::stop() {
-  close(socket_fd);
+void SocketManager::close_socket() {
+  close(socket_manager_fd);
   std::cout << "Connection closed\n"; 
 }
 
-ssize_t SocketManager::recv_msg(char * msg, const int length){
+ssize_t SocketManager::recv_msg(const int & socket_fd, char * msg, const int length){
   return read(socket_fd, msg, length);
 }
 
-ssize_t SocketManager::send_msg(const char * msg) {
+ssize_t SocketManager::send_msg(const int & socket_fd, const char * msg) {
   return send(socket_fd, msg, strlen(msg), 0);
 }
