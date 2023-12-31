@@ -7,6 +7,7 @@
 #include <vector>
 #include <functional>
 #include "Server.h"
+#include "Service.h"
 #include "SocketManager.h"
 
 void Server::serve() {
@@ -16,7 +17,7 @@ void Server::serve() {
 
   while (true) {
     int socket_fd = socket_manager.create_new_connection();
-    std::thread service_thread(std::bind(&Server::service, this, socket_fd));
+    std::thread service_thread(std::bind(&Server::service_dispatcher, this, socket_fd));
     all_threads.emplace_back(std::move(service_thread));
   }
 
@@ -27,7 +28,7 @@ void Server::serve() {
   }
 
   int socket_fd = socket_manager.create_new_connection();
-  service(socket_fd);
+  service_dispatcher(socket_fd);
   
   close_server();
 }
@@ -40,7 +41,7 @@ void Server::close_server() {
   socket_manager.close_socket_manager();
 }
 
-void Server::service(int socket_fd) {
+void Server::service_dispatcher(int socket_fd) {
 
   while (true) {
     const int MSG_SIZE_MAX = 1024;
@@ -55,79 +56,9 @@ void Server::service(int socket_fd) {
       break;
     }
 
-    const char *PING_MSG = "ping";
-    char *t; 
-    
-    const char* PONG_MSG = "+PONG\r\n";
-    for (t = msg; *t != '\0'; t++) {
-      if (*t == 'p' && strncmp(t, PING_MSG, strlen(PING_MSG)) == 0) {
-        socket_manager.send_msg(socket_fd, PONG_MSG);
-      }
-    }
+    std::cout << "Received msg from " << socket_fd << " : " << msg << std::endl;
+
+    Service service;
+    service.pong_service(socket_manager, socket_fd, msg);
   }
 }
-
-// void Server::run() {
-//   while (true) {
-//     int socket_fd = socket_manager.listen_for_connection();
-
-//     const int MSG_SIZE_MAX = 1024;
-//     char msg[MSG_SIZE_MAX];
-//     ssize_t bytes_recv = socket_manager.recv_msg(socket_fd, msg, MSG_SIZE_MAX);
-
-//     if (bytes_recv <= 0) {
-//       std::cout << "Client disconnected\n";
-//       if (socket_fd != -1) {
-//         close(socket_fd);
-//       }
-//       break;
-//     }
-
-//     const char *PING_MSG = "ping";
-//     char *t; 
-    
-//     const char* PONG_MSG = "+PONG\r\n";
-//     for (t = msg; *t != '\0'; t++) {
-//       if (*t == 'p' && strncmp(t, PING_MSG, strlen(PING_MSG)) == 0) {
-//         socket_manager.send_msg(socket_fd, PONG_MSG);
-//       }
-//     }
-//   }
-// }
-
-
-// void Service::serve() {
-//   SocketManager socket_manager;
-
-//   socket_manager.setup_socket();
-
-//   // main logic
-//   while (true) {
-//     int socket_fd = -1;
-//     socket_manager.accept_connection(socket_fd);
-
-//     const int MSG_SIZE_MAX = 1024;
-//     char msg[MSG_SIZE_MAX];
-//     ssize_t bytes_recv = socket_manager.recv_msg(socket_fd, msg, MSG_SIZE_MAX);
-
-//     if (bytes_recv <= 0) {
-//       std::cout << "Client disconnected\n";
-//       if (socket_fd != -1) {
-//         close(socket_fd);
-//       }
-//       break;
-//     }
-
-//     const char *PING_MSG = "ping";
-//     char *t; 
-    
-//     const char* PONG_MSG = "+PONG\r\n";
-//     for (t = msg; *t != '\0'; t++) {
-//       if (*t == 'p' && strncmp(t, PING_MSG, strlen(PING_MSG)) == 0) {
-//         socket_manager.send_msg(socket_fd, PONG_MSG);
-//       }
-//     }
-//   }
-
-//   socket_manager.close_socket();
-// }

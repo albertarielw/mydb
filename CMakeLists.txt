@@ -6,6 +6,7 @@ set(SOURCE_FILES
     src/main.cpp
     src/SocketManager.cpp
     src/Server.cpp
+    src/Service.cpp
     )
 
 add_executable(server ${SOURCE_FILES})

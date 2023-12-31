@@ -1,5 +1,5 @@
-#ifndef SERVICE_H
-#define SERVICE_H
+#ifndef SERVER_H
+#define SERVER_H
 
 #include <iostream>
 #include <unistd.h>
@@ -15,7 +15,7 @@ private:
   void setup_server();
   void close_server();
   
-  void service(int socket_fd); //TODO: abstract out to service class
+  void service_dispatcher(int socket_fd); //TODO: abstract out to service class
 
   SocketManager socket_manager;
 };

@@ -19,17 +19,17 @@ def main():
 
     print("Message sent successfully")
 
-    # Wait for the response from the server
-    response = client_socket.recv(1024).decode()
-
-    print("Received response from server:", response)
-
-    time.sleep(3)
+    # time.sleep(3)
 
     response = client_socket.recv(1024).decode()
 
     # Print the server's response
-    print("Received response from server:", response)
+    print("Received response 1 from server:", response)
+
+    response = client_socket.recv(1024).decode()
+
+    # Print the server's response
+    print("Received response 2 from server:", response)
 
     # Close the socket
     client_socket.close()
