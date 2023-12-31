@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include "SocketManager.h"
 #include "Database.h"
+#include "Utils.h"
 
 class Service {
 public:
@@ -28,6 +29,9 @@ private:
 
   bool is_get_service(const std::string & command);
   void get_service(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input, Database & database);
+
+  bool is_set_service_with_expiry(const std::string & command, const std::vector<std::string> & deserialized_input);
+  void set_service_with_expiry(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input, Database & database);
 };
 
 #endif

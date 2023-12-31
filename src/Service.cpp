@@ -7,6 +7,7 @@
 #include "Service.h"
 #include "SocketManager.h"
 #include "Database.h"
+#include "Utils.h"
 
 void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database) {
   std::vector<std::string> deserialized_input = deserialize(input);
@@ -19,6 +20,10 @@ void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, 
   } else if (is_echo_service(command)) {
     echo_service(socket_manager, socket_fd, deserialized_input);
   } else if (is_set_service(command)) {
+    if (is_set_service_with_expiry(command, deserialized_input)) {
+      set_service_with_expiry(socket_manager, socket_fd, deserialized_input, database);
+      return;
+    } 
     set_service(socket_manager, socket_fd, deserialized_input, database);
   } else if (is_get_service(command)) {
     get_service(socket_manager, socket_fd, deserialized_input, database);
@@ -106,6 +111,23 @@ void Service::get_service(SocketManager & socket_manager, const int & socket_fd,
   std::string value = database.get(key);
 
   std::string resp = value != "" ? "+" + value + "\r\n" : "+(nil)\r\n";
+  socket_manager.send_msg(socket_fd, resp);
+}
+
+bool Service::is_set_service_with_expiry(const std::string & command, const std::vector<std::string> & deserialized_input) {
+  return command == "set" && deserialized_input.size() >= 11 && convert_to_lowercase(deserialized_input[8]) == "px";
+}
+
+void Service::set_service_with_expiry(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input, Database & database) {
+  if (deserialized_input.size() < 11) {
+    return;
+  }
+  std::string key = deserialized_input[4], value = deserialized_input[6];
+
+   const int expiry_duration_in_milisecond = std::stoi(deserialized_input[10]);
+  database.set_with_expiry(key, value, expiry_duration_in_milisecond);
+
+  std::string resp = "+OK\r\n";
   socket_manager.send_msg(socket_fd, resp);
 }
 

@@ -8,6 +8,7 @@ set(SOURCE_FILES
     src/Server.cpp
     src/Service.cpp
     src/Database.cpp
+    src/Utils.cpp
     )
 
 add_executable(server ${SOURCE_FILES})
