@@ -62,6 +62,9 @@
         "compare": "cpp",
         "concepts": "cpp",
         "algorithm": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "deque": "cpp",
+        "queue": "cpp",
+        "thread": "cpp"
     }
 }

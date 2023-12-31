@@ -12,7 +12,7 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "ping"
+    message = "*2\r\n$4\r\nping\r\n"
 
     # Send the message to the server
     client_socket.sendall(message.encode())
