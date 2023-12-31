@@ -16,6 +16,9 @@ private:
 
   bool is_pong_service(const std::string & command);
   void pong_service(SocketManager & socket_manager, const int & socket_fd);
+
+  bool is_echo_service(const std::string & command);
+  void echo_service(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input);
 };
 
 #endif

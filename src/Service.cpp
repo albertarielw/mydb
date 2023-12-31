@@ -11,6 +11,8 @@ void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, 
 
   if (is_pong_service(command)) {
     pong_service(socket_manager, socket_fd);
+  } else if (is_echo_service(command)) {
+    echo_service(socket_manager, socket_fd, deserialized_input);
   }
 }
 
@@ -53,4 +55,17 @@ bool Service::is_pong_service(const std::string & command) {
 void Service::pong_service(SocketManager & socket_manager, const int & socket_fd) {
   const char * PONG_MSG = "+PONG\r\n";
   socket_manager.send_msg(socket_fd, PONG_MSG);
+}
+
+bool Service::is_echo_service(const std::string & command) {
+  return command == "echo";
+}
+
+void Service::echo_service(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input) {
+  if (deserialized_input.size() < 5) {
+    return;
+  }
+  std::string msg = "+" + deserialized_input[4] + "\r\n";
+  std::cout << "echo: " << msg << std::endl;
+  socket_manager.send_msg(socket_fd, msg.c_str());
 }
