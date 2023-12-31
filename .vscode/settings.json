@@ -65,6 +65,9 @@
         "functional": "cpp",
         "deque": "cpp",
         "queue": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "memory_resource": "cpp",
+        "utility": "cpp",
+        "__memory": "cpp"
     }
 }

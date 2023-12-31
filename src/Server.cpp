@@ -39,7 +39,6 @@ void Server::close_server() {
 }
 
 void Server::main_service(int socket_fd) {
-
   while (true) {
     const int MSG_SIZE_MAX = 1024;
     char msg[MSG_SIZE_MAX];
@@ -57,6 +56,6 @@ void Server::main_service(int socket_fd) {
 
     Service service;
     std::string input(msg);
-    service.dispatcher(socket_manager, socket_fd, input);
+    service.dispatcher(socket_manager, socket_fd, input, database);
   }
 }

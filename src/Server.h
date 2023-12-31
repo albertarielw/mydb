@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 #include "SocketManager.h"
+#include "Database.h"
 
 class Server {
 public:
@@ -18,6 +19,7 @@ private:
   void main_service(int socket_fd); //TODO: abstract out to service class
 
   SocketManager socket_manager;
+  Database database;
 };
 
 #endif
