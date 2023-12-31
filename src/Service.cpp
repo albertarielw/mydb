@@ -7,8 +7,9 @@
 void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, char * msg) {
   std::string input(msg);
   std::vector<std::string> deserialized_input = deserialize(input);
+  std::string command = extract_command(deserialized_input);
 
-  if (is_pong_service(deserialized_input)) {
+  if (is_pong_service(command)) {
     pong_service(socket_manager, socket_fd);
   }
 }
@@ -32,18 +33,20 @@ std::vector<std::string> Service::deserialize(const std::string & input) {
   return output;
 }
 
-bool Service::is_pong_service(const std::vector<std::string> & input) {
-  if (input.size() < 3) {
-    return false;
+std::string Service::extract_command(const std::vector<std::string> & deserialized_input) {
+  if (deserialized_input.size() < 3) {
+    return "";
   }
 
-  std::string command = input[2];
-  for (auto & c: command) {
+  std::string lowercase_command = deserialized_input[2];
+  for (auto & c: lowercase_command) {
     c = tolower(c);
   }
 
-  std::cout << "command is " << command << std::endl;
+  return lowercase_command;
+}
 
+bool Service::is_pong_service(const std::string & command) {
   return command == "ping";
 }
 
