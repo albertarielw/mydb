@@ -17,7 +17,7 @@ void Server::serve() {
 
   while (true) {
     int socket_fd = socket_manager.create_new_connection();
-    std::thread service_thread(std::bind(&Server::service_dispatcher, this, socket_fd));
+    std::thread service_thread(std::bind(&Server::main_service, this, socket_fd));
     all_threads.emplace_back(std::move(service_thread));
   }
 
@@ -26,9 +26,6 @@ void Server::serve() {
       all_threads[i].join();
     }
   }
-
-  int socket_fd = socket_manager.create_new_connection();
-  service_dispatcher(socket_fd);
   
   close_server();
 }
@@ -41,7 +38,7 @@ void Server::close_server() {
   socket_manager.close_socket_manager();
 }
 
-void Server::service_dispatcher(int socket_fd) {
+void Server::main_service(int socket_fd) {
 
   while (true) {
     const int MSG_SIZE_MAX = 1024;
@@ -59,6 +56,6 @@ void Server::service_dispatcher(int socket_fd) {
     std::cout << "Received msg from " << socket_fd << " : " << msg << std::endl;
 
     Service service;
-    service.pong_service(socket_manager, socket_fd, msg);
+    service.dispatcher(socket_manager, socket_fd, msg);
   }
 }

@@ -7,8 +7,11 @@
 
 class Service {
 public:
-  void pong_service(SocketManager & socket_manager, const int & socket_fd, char * msg);
+  void dispatcher(SocketManager & socket_manager, const int & socket_fd, char * msg);
+
 private:
+  bool is_pong_service(char * msg);
+  void pong_service(SocketManager & socket_manager, const int & socket_fd);
 };
 
 #endif

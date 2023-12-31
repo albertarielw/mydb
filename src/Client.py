@@ -12,7 +12,7 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "pingping"
+    message = "ping"
 
     # Send the message to the server
     client_socket.sendall(message.encode())
@@ -25,11 +25,6 @@ def main():
 
     # Print the server's response
     print("Received response 1 from server:", response)
-
-    response = client_socket.recv(1024).decode()
-
-    # Print the server's response
-    print("Received response 2 from server:", response)
 
     # Close the socket
     client_socket.close()
