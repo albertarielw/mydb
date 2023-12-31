@@ -4,8 +4,7 @@
 #include "Service.h"
 #include "SocketManager.h"
 
-void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, char * msg) {
-  std::string input(msg);
+void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input) {
   std::vector<std::string> deserialized_input = deserialize(input);
   std::string command = extract_command(deserialized_input);
 
@@ -53,7 +52,7 @@ bool Service::is_pong_service(const std::string & command) {
 }
 
 void Service::pong_service(SocketManager & socket_manager, const int & socket_fd) {
-  const char * PONG_MSG = "+PONG\r\n";
+  std::string PONG_MSG = "+PONG\r\n";
   socket_manager.send_msg(socket_fd, PONG_MSG);
 }
 
@@ -67,5 +66,5 @@ void Service::echo_service(SocketManager & socket_manager, const int & socket_fd
   }
   std::string msg = "+" + deserialized_input[4] + "\r\n";
   std::cout << "echo: " << msg << std::endl;
-  socket_manager.send_msg(socket_fd, msg.c_str());
+  socket_manager.send_msg(socket_fd, msg);
 }

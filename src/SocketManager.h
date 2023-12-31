@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <thread>
+#include <string>
+#include <cstring>
 #include <unistd.h>
 
 class SocketManager {
@@ -13,7 +15,7 @@ public:
   int create_new_connection();
 
   ssize_t recv_msg(const int & socket_fd, char * msg, const int length);
-  ssize_t send_msg(const int & socket_fd, const char * msg);
+  ssize_t send_msg(const int & socket_fd, std::string & msg);
 
 private:
   int socket_manager_fd;

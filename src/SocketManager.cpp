@@ -67,6 +67,7 @@ ssize_t SocketManager::recv_msg(const int & socket_fd, char * msg, const int len
   return read(socket_fd, msg, length);
 }
 
-ssize_t SocketManager::send_msg(const int & socket_fd, const char * msg) {
-  return send(socket_fd, msg, strlen(msg), 0);
+ssize_t SocketManager::send_msg(const int & socket_fd, std::string & msg) {
+  const char * msg_char = msg.c_str();
+  return send(socket_fd, msg_char, strlen(msg_char), 0);
 }

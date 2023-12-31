@@ -56,6 +56,7 @@ void Server::main_service(int socket_fd) {
     std::cout << "Received msg from " << socket_fd << " : " << msg << std::endl;
 
     Service service;
-    service.dispatcher(socket_manager, socket_fd, msg);
+    std::string input(msg);
+    service.dispatcher(socket_manager, socket_fd, input);
   }
 }

@@ -8,7 +8,7 @@
 
 class Service {
 public:
-  void dispatcher(SocketManager & socket_manager, const int & socket_fd, char * msg);
+  void dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input);
 
 private:
   std::vector<std::string> deserialize(const std::string & input);
