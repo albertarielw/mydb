@@ -110,7 +110,7 @@ void Service::get_service(SocketManager & socket_manager, const int & socket_fd,
   std::string key = deserialized_input[4];
   std::string value = database.get(key);
 
-  std::string resp = value != "" ? "+" + value + "\r\n" : "_\r\n";
+  std::string resp = value != "" ? "+" + value + "\r\n" : "$-1\r\n";
   socket_manager.send_msg(socket_fd, resp);
 }
 
