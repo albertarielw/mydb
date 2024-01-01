@@ -12,7 +12,7 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "*2\r\n$4\r\nSET\r\n$3\r\nhey\r\n$3\r\nhey\r\n$2\r\nPX\r\n$1\r\n000\r\n"
+    message = "*2\r\n$4\r\CONFIG\r\n$3\r\GET\r\n$3\r\ndir\r\n"
 
     # Send the message to the server
     client_socket.sendall(message.encode())
@@ -26,22 +26,22 @@ def main():
     # Print the server's response
     print("Received response 1 from server:", response)
 
-    time.sleep(1)
+    # time.sleep(1)
 
-    # Message to send
-    message = "*2\r\n$4\r\nGET\r\n$3\r\nhey\r\n"
+    # # Message to send
+    # message = "*2\r\n$4\r\nGET\r\n$3\r\nhey\r\n"
 
-    # Send the message to the server
-    client_socket.sendall(message.encode())
+    # # Send the message to the server
+    # client_socket.sendall(message.encode())
 
-    print("Message sent successfully")
+    # print("Message sent successfully")
 
-    # time.sleep(3)
+    # # time.sleep(3)
 
-    response = client_socket.recv(1024).decode()
+    # response = client_socket.recv(1024).decode()
 
     # Print the server's response
-    print("Received response 2 from server:", response)
+    # print("Received response 2 from server:", response)
 
 
     # Close the socket

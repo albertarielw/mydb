@@ -8,8 +8,7 @@ class Config {
 public:
   Config(std::unordered_map<std::string, std::vector<std::string>> & configs);
 
-  std::string get_database_directory();
-  std::string get_database_filename();
+  std::string get_config(std::string & key);
 
 private:
   std::string database_directory, database_filename;

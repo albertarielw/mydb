@@ -9,6 +9,9 @@
 #include "Server.h"
 #include "Service.h"
 #include "SocketManager.h"
+#include "Config.h"
+
+Server::Server(Config & config): config(config) {}
 
 void Server::serve() {
   setup_server();
@@ -56,6 +59,6 @@ void Server::main_service(int socket_fd) {
 
     Service service;
     std::string input(msg);
-    service.dispatcher(socket_manager, socket_fd, input, database);
+    service.dispatcher(socket_manager, socket_fd, input, database, config);
   }
 }

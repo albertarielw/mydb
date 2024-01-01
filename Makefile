@@ -153,6 +153,30 @@ src/ArgsParser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/ArgsParser.cpp.s
 .PHONY : src/ArgsParser.cpp.s
 
+src/Config.o: src/Config.cpp.o
+.PHONY : src/Config.o
+
+# target to build an object file
+src/Config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Config.cpp.o
+.PHONY : src/Config.cpp.o
+
+src/Config.i: src/Config.cpp.i
+.PHONY : src/Config.i
+
+# target to preprocess a source file
+src/Config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Config.cpp.i
+.PHONY : src/Config.cpp.i
+
+src/Config.s: src/Config.cpp.s
+.PHONY : src/Config.s
+
+# target to generate assembly for a file
+src/Config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Config.cpp.s
+.PHONY : src/Config.cpp.s
+
 src/Database.o: src/Database.cpp.o
 .PHONY : src/Database.o
 
@@ -176,6 +200,30 @@ src/Database.s: src/Database.cpp.s
 src/Database.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/Database.cpp.s
 .PHONY : src/Database.cpp.s
+
+src/FileManagement.o: src/FileManagement.cpp.o
+.PHONY : src/FileManagement.o
+
+# target to build an object file
+src/FileManagement.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/FileManagement.cpp.o
+.PHONY : src/FileManagement.cpp.o
+
+src/FileManagement.i: src/FileManagement.cpp.i
+.PHONY : src/FileManagement.i
+
+# target to preprocess a source file
+src/FileManagement.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/FileManagement.cpp.i
+.PHONY : src/FileManagement.cpp.i
+
+src/FileManagement.s: src/FileManagement.cpp.s
+.PHONY : src/FileManagement.s
+
+# target to generate assembly for a file
+src/FileManagement.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/FileManagement.cpp.s
+.PHONY : src/FileManagement.cpp.s
 
 src/Server.o: src/Server.cpp.o
 .PHONY : src/Server.o
@@ -309,9 +357,15 @@ help:
 	@echo "... src/ArgsParser.o"
 	@echo "... src/ArgsParser.i"
 	@echo "... src/ArgsParser.s"
+	@echo "... src/Config.o"
+	@echo "... src/Config.i"
+	@echo "... src/Config.s"
 	@echo "... src/Database.o"
 	@echo "... src/Database.i"
 	@echo "... src/Database.s"
+	@echo "... src/FileManagement.o"
+	@echo "... src/FileManagement.i"
+	@echo "... src/FileManagement.s"
 	@echo "... src/Server.o"
 	@echo "... src/Server.i"
 	@echo "... src/Server.s"

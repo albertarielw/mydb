@@ -7,9 +7,11 @@
 #include <vector>
 #include "SocketManager.h"
 #include "Database.h"
+#include "Config.h"
 
 class Server {
 public:
+  Server(Config & config);
   void serve();
 
 private:
@@ -20,6 +22,7 @@ private:
 
   SocketManager socket_manager;
   Database database;
+  Config config;
 };
 
 #endif

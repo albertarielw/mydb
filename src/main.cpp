@@ -17,6 +17,6 @@ int main(int argc, char ** argv) {
 
   Config config(args);
 
-  Server server;
+  Server server(config);
   server.serve();
 }

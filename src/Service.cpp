@@ -8,8 +8,9 @@
 #include "SocketManager.h"
 #include "Database.h"
 #include "Utils.h"
+#include "Config.h"
 
-void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database) {
+void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database, Config & config) {
   std::vector<std::string> deserialized_input = deserialize(input);
   std::string command = extract_command(deserialized_input);
 
@@ -27,6 +28,10 @@ void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, 
     set_service(socket_manager, socket_fd, deserialized_input, database);
   } else if (is_get_service(command)) {
     get_service(socket_manager, socket_fd, deserialized_input, database);
+  } else if (is_config_service(command)) {
+    if (is_config_get_service(command, deserialized_input)) {
+      config_get_service(socket_manager, socket_fd, deserialized_input, config);
+    }
   }
 }
 
@@ -60,6 +65,10 @@ std::string Service::extract_command(const std::vector<std::string> & deserializ
   }
 
   return lowercase_command;
+}
+
+void Service::encode_bulk_string(std::string &resp, const std::string &str) {
+  resp += "$" + std::to_string(str.length()) + "\r\n" + str + "\r\n";
 }
 
 bool Service::is_pong_service(const std::string & command) {
@@ -128,6 +137,34 @@ void Service::set_service_with_expiry(SocketManager & socket_manager, const int 
   database.set_with_expiry(key, value, expiry_duration_in_milisecond);
 
   std::string resp = "+OK\r\n";
+  socket_manager.send_msg(socket_fd, resp);
+}
+
+bool Service::is_config_service(const std::string & command) {
+  return command == "config";
+}
+
+bool Service::is_config_get_service(const std::string & command, const std::vector<std::string> & deserialized_input) {
+  return command == "config" && deserialized_input.size() >= 7 && convert_to_lowercase(deserialized_input[4]) == "get";
+}
+
+std::string Service::encode_config_get_response(const std::string &key, const std::string &value) {
+  std::string resp = "*2\r\n";
+  encode_bulk_string(resp, key);
+  encode_bulk_string(resp, value);
+  return resp;
+}
+
+void Service::config_get_service(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input, Config & config) {
+  if (deserialized_input.size() < 7) {
+    return;
+  }
+  std::string key = deserialized_input[6];
+
+  std::string value = config.get_config(key);
+
+  std::string resp = encode_config_get_response(key, value);
+
   socket_manager.send_msg(socket_fd, resp);
 }
 

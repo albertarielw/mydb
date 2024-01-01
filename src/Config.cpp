@@ -12,10 +12,14 @@ Config::Config(std::unordered_map<std::string, std::vector<std::string>> & confi
   }
 }
 
-std::string Config::get_database_directory() {
-  return database_directory;
-}
+std::string Config::get_config(std::string & key) {
+  if (key == KEY_NAME_DATABASE_DIRECTORY) {
+    return database_directory;
+  }
 
-std::string Config::get_database_filename() {
-  return database_filename;
+  if (key == KEY_NAME_DATABASE_FILENAME) {
+    return database_filename;
+  }
+
+  return "";
 }
