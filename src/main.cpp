@@ -3,7 +3,7 @@
 #include <thread>
 #include <vector>
 #include "Server.h"
-#include "SocketManager.h"
+#include "ArgsParser.h"
 
 /*
 TODO:
@@ -11,7 +11,18 @@ TODO:
 - implement optional for DB?
 */
 
-int main(int argc, char **argv) {
+int main(int argc, char ** argv) {
+  ArgsParser args_parser;
+  std::unordered_map<std::string, std::vector<std::string>> output = args_parser.parse(argc, argv);
+
+  for (auto &[k, v]: output) {
+    std::cout << k << " : ";
+    for (auto &i: v) {
+      std::cout << i << ", ";
+    }
+    std::cout << std::endl;
+  }
+
   Server server;
   server.serve();
 }

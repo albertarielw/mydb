@@ -129,6 +129,30 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+src/ArgsParser.o: src/ArgsParser.cpp.o
+.PHONY : src/ArgsParser.o
+
+# target to build an object file
+src/ArgsParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/ArgsParser.cpp.o
+.PHONY : src/ArgsParser.cpp.o
+
+src/ArgsParser.i: src/ArgsParser.cpp.i
+.PHONY : src/ArgsParser.i
+
+# target to preprocess a source file
+src/ArgsParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/ArgsParser.cpp.i
+.PHONY : src/ArgsParser.cpp.i
+
+src/ArgsParser.s: src/ArgsParser.cpp.s
+.PHONY : src/ArgsParser.s
+
+# target to generate assembly for a file
+src/ArgsParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/ArgsParser.cpp.s
+.PHONY : src/ArgsParser.cpp.s
+
 src/Database.o: src/Database.cpp.o
 .PHONY : src/Database.o
 
@@ -282,6 +306,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... server"
+	@echo "... src/ArgsParser.o"
+	@echo "... src/ArgsParser.i"
+	@echo "... src/ArgsParser.s"
 	@echo "... src/Database.o"
 	@echo "... src/Database.i"
 	@echo "... src/Database.s"
