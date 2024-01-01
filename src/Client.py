@@ -12,7 +12,7 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "*2\r\n$4\r\CONFIG\r\n$3\r\GET\r\n$3\r\ndir\r\n"
+    message = "*2\r\n$6\r\nCONFIG\r\n$3\r\nGET\r\n$3\r\ndbfilename\r\n"
 
     # Send the message to the server
     client_socket.sendall(message.encode())
