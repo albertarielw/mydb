@@ -29,7 +29,7 @@ void Database::set_with_expiry(const std::string & key, const std::string & valu
 
 std::string Database::get(const std::string & key) {
     for (auto &[k, v]: database) {
-        std::cout << "key: " << k << "value: " << v << std::endl;
+        std::cout << "key: " << k << " value: " << v << std::endl;
     }
 
     if (database.find(key) == database.end()) {
