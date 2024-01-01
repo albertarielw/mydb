@@ -2,17 +2,19 @@
 #define CONFIG_H
 
 #include <string>
+#include <unordered_map>
 
 class Config {
 public:
-  Config(const std::string& database_directory, const std::string& database_filename)
-    : database_directory(database_directory), database_filename(database_filename) {}
+  Config(std::unordered_map<std::string, std::vector<std::string>> & configs);
 
   std::string get_database_directory();
   std::string get_database_filename();
 
 private:
   std::string database_directory, database_filename;
+  const std::string KEY_NAME_DATABASE_DIRECTORY = "dir";
+  const std::string KEY_NAME_DATABASE_FILENAME = "dbfilename";
 };
 
 #endif
