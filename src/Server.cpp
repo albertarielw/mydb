@@ -41,7 +41,7 @@ void Server::close_server() {
 void Server::main_service(int socket_fd) {
   while (true) {
     const int MSG_SIZE_MAX = 1024;
-    char msg[MSG_SIZE_MAX];
+    char msg[MSG_SIZE_MAX] = {};
     ssize_t bytes_recv = socket_manager.recv_msg(socket_fd, msg, MSG_SIZE_MAX);
 
     if (bytes_recv <= 0) {

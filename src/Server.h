@@ -16,7 +16,7 @@ private:
   void setup_server();
   void close_server();
   
-  void main_service(int socket_fd); //TODO: abstract out to service class
+  void main_service(int socket_fd);
 
   SocketManager socket_manager;
   Database database;

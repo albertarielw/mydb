@@ -12,7 +12,7 @@ def main():
     client_socket.connect(server_address)
 
     # Message to send
-    message = "*2\r\n$4\r\nSET\r\n$3\r\nhey\r\n$3\r\nhey\r\n$2\r\nPX\r\n$1\r\n1\r\n"
+    message = "*2\r\n$4\r\nSET\r\n$3\r\nhey\r\n$3\r\nhey\r\n$2\r\nPX\r\n$1\r\n000\r\n"
 
     # Send the message to the server
     client_socket.sendall(message.encode())
@@ -29,7 +29,7 @@ def main():
     time.sleep(1)
 
     # Message to send
-    message = "*2\r\n$4\r\nGET\r\n$3\r\nhey\r\n$3\r\nhey\r\nPX\r\n1\r\n"
+    message = "*2\r\n$4\r\nGET\r\n$3\r\nhey\r\n"
 
     # Send the message to the server
     client_socket.sendall(message.encode())

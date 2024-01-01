@@ -36,13 +36,12 @@ std::string Database::get(const std::string & key) {
         return "";
     }
 
-    std::cout << convert_to_unix_timestamp(get_current_timestamp()) << std::endl;
+    std::cout << "Current timestamp: " << convert_to_unix_timestamp(get_current_timestamp()) << std::endl;
     if (expiry.find(key) != expiry.end()) {
-        std::cout << convert_to_unix_timestamp(expiry[key]) << std::endl;
+        std::cout << "Expiry timestamp: " << convert_to_unix_timestamp(expiry[key]) << std::endl;
     }
 
     if (expiry.find(key) != expiry.end() && get_current_timestamp() > expiry[key]) {
-        std::cout << "HERE" << std::endl;
         return "";
     }
 
