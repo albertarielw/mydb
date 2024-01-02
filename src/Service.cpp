@@ -184,17 +184,7 @@ bool Service::is_get_all_keys_service(const std::string & command, const std::ve
 };
 
 void Service::get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, FileManagement & file_management) {
-  std::vector<std::string> content = file_management.read();
-
-  if (content.empty()) {
-    std::string resp = "$-1\r\n";
-    socket_manager.send_msg(socket_fd, resp);
-    return;
-  }
-  
-  std::string resp = "*" + std::to_string(content.size());
-  for (int i = 0; i < content.size(); ++i) {
-    encode_bulk_string(resp, content[i]);
-  }
+  std::string resp = file_management.readFileAndGetKeys();
   socket_manager.send_msg(socket_fd, resp);
 };
+

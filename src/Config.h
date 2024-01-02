@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <vector>
 #include <string>
 #include <unordered_map>
 

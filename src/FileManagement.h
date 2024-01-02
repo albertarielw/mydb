@@ -8,8 +8,10 @@
 class FileManagement {
 public:
   FileManagement(Config & config);
-
+  
   std::vector<std::string> read();
+  void print();
+  std::string readFileAndGetKeys();
 
 private:
   std::string database_directory, database_filename;

@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include "Config.h"
 
 Config::Config(std::unordered_map<std::string, std::vector<std::string>> & configs) {
