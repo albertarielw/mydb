@@ -184,7 +184,12 @@ bool Service::is_get_all_keys_service(const std::string & command, const std::ve
 };
 
 void Service::get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, FileManagement & file_management) {
-  std::string resp = file_management.readFileAndGetKeys();
+  file_management.print();
+  
+  std::string resp = "";
+  encode_bulk_string(resp, file_management.readFileAndGetKeys());
+  resp = "*1\r\n" + resp;
+  std::cout << "resp is: " << resp << std::endl;
   socket_manager.send_msg(socket_fd, resp);
 };
 
