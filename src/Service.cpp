@@ -9,8 +9,9 @@
 #include "Database.h"
 #include "Utils.h"
 #include "Config.h"
+#include "FileManagement.h"
 
-void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database, Config & config) {
+void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database, Config & config, FileManagement & file_management) {
   std::vector<std::string> deserialized_input = deserialize(input);
   std::string command = extract_command(deserialized_input);
 
@@ -31,6 +32,12 @@ void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, 
   } else if (is_config_service(command)) {
     if (is_config_get_service(command, deserialized_input)) {
       config_get_service(socket_manager, socket_fd, deserialized_input, config);
+    }
+  } else if (is_keys_service(command)) {
+    std::cout << "is keys service" << std::endl;
+    if (is_get_all_keys_service(command, deserialized_input)) {
+      std::cout << "is get all keys service" << std::endl;
+      get_all_keys_service(socket_manager, socket_fd, file_management);
     }
   }
 }
@@ -168,3 +175,26 @@ void Service::config_get_service(SocketManager & socket_manager, const int & soc
   socket_manager.send_msg(socket_fd, resp);
 }
 
+bool Service::is_keys_service(const std::string & command) {
+  return command == "keys";
+}
+
+bool Service::is_get_all_keys_service(const std::string & command, const std::vector<std::string> & deserialized_input) {
+  return command == "keys" && deserialized_input.size() >= 5 && deserialized_input[4] == "*";
+};
+
+void Service::get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, FileManagement & file_management) {
+  std::vector<std::string> content = file_management.read();
+
+  if (content.empty()) {
+    std::string resp = "$-1\r\n";
+    socket_manager.send_msg(socket_fd, resp);
+    return;
+  }
+  
+  std::string resp = "*" + std::to_string(content.size());
+  for (int i = 0; i < content.size(); ++i) {
+    encode_bulk_string(resp, content[i]);
+  }
+  socket_manager.send_msg(socket_fd, resp);
+};

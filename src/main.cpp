@@ -18,13 +18,13 @@ int main(int argc, char ** argv) {
 
   Config config(config_args);
 
-  // Server server(config);
-  // server.serve();
+  Server server(config);
+  server.serve();
 
-  FileManagement file_management(config);
-  std::vector<std::string> content = file_management.read();
+  // FileManagement file_management(config);
+  // std::vector<std::string> content = file_management.read();
 
-  for (int i = 0; i < content.size(); ++i) {
-    std::cout << content[i] << std::endl;
-  }
+  // for (int i = 0; i < content.size(); ++i) {
+  //   std::cout << content[i] << std::endl;
+  // }
 }

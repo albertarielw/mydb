@@ -9,10 +9,11 @@
 #include "Database.h"
 #include "Utils.h"
 #include "Config.h"
+#include "FileManagement.h"
 
 class Service {
 public:
-  void dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database, Config & config);
+  void dispatcher(SocketManager & socket_manager, const int & socket_fd, const std::string & input, Database & database, Config & config, FileManagement & file_management);
 
 private:
 
@@ -41,6 +42,10 @@ private:
   std::string encode_config_get_response(const std::string &key, const std::string &value);
   void config_get_service(SocketManager & socket_manager, const int & socket_fd, const std::vector<std::string> & deserialized_input, Config & config);
 
+  bool is_keys_service(const std::string & command);
+  
+  bool is_get_all_keys_service(const std::string & command, const std::vector<std::string> & deserialized_input);
+  void get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, FileManagement & file_management);
 };
 
 #endif

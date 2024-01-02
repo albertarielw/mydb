@@ -8,6 +8,7 @@
 #include "SocketManager.h"
 #include "Database.h"
 #include "Config.h"
+#include "FileManagement.h"
 
 class Server {
 public:
@@ -23,6 +24,7 @@ private:
   SocketManager socket_manager;
   Database database;
   Config config;
+  FileManagement file_management;
 };
 
 #endif
