@@ -68,6 +68,9 @@
         "thread": "cpp",
         "memory_resource": "cpp",
         "utility": "cpp",
-        "__memory": "cpp"
+        "__memory": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "stack": "cpp"
     }
 }

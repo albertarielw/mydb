@@ -10,8 +10,11 @@ public:
 
   std::string get_config(std::string & key);
 
+  std::string get_database_directory();
+  std::string get_database_filename();
+
 private:
-  std::string database_directory, database_filename;
+  std::string database_directory = "", database_filename = "";
   const std::string KEY_NAME_DATABASE_DIRECTORY = "dir";
   const std::string KEY_NAME_DATABASE_FILENAME = "dbfilename";
 };
