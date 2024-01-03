@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Config.h"
+#include "Database.h"
 
 enum OP_CODE : unsigned char {
   OP_CODE_EOF = 0xFF,
@@ -22,7 +23,7 @@ public:
   std::vector<std::string> read();
   void print();
   std::string readFileAndGetKeys();
-  std::unordered_map<std::string, std::string> load_data();
+  void load_data(Database & database);
 
 private:
   std::string database_directory, database_filename;

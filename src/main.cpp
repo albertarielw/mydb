@@ -18,18 +18,6 @@ int main(int argc, char ** argv) {
 
   Config config(config_args);
 
-  if (config.get_database_directory() != "" and config.get_database_filename() != "") {
-    FileManagement file_management(config);
-    file_management.print();
-
-    std::unordered_map<std::string, std::string> data = file_management.load_data();
-    std::cout << "data: " << std::endl;
-
-    for (auto &[k, v]: data) {
-      std::cout << k << " " << v << std::endl;
-    }
-  }
-
   Server server(config);
   server.serve();
 

@@ -127,25 +127,51 @@ std::string FileManagement::readFileAndGetKeys() {
   return key;
 }
 
-std::unordered_map<std::string, std::string> FileManagement::load_data() {
+void FileManagement::load_data(Database & database) {
   std::ifstream file(database_directory + "/" + database_filename);
 
   if (!file.is_open()) {
     std::cerr << "Error opening file" << std::endl;
+    return;
   }
-
-  std::unordered_map<std::string, std::string> output;
+  
+  std::unordered_map<std::string, std::string> new_database;
+  std::unordered_map<std::string, std::chrono::time_point<std::chrono::system_clock>> new_expiry;
   char ch;
   while (file.read(&ch, 1)) {
+    if (static_cast<unsigned char>(ch) == OP_CODE_EOF) {
+      break;
+    }
+
     if (static_cast<unsigned char>(ch) == OP_CODE_RESIZEDB) {
       std::vector<int> length_encoding_descriptor;
-      for (int i = 0; i < 3; ++i) {
+      for (int i = 0; i < 2; ++i) {
         file.read(&ch, 1);
         length_encoding_descriptor.push_back(static_cast<int>(ch));
       }
 
       int nums_of_keys = length_encoding_descriptor[0];
       for (int i = 0; i < nums_of_keys; ++i) {
+        file.read(&ch, 1);
+
+        bool has_expiry = false;
+        unsigned long long num;
+        if (static_cast<unsigned char>(ch) == OP_CODE_EXPIRETIME) {
+          file.read(reinterpret_cast<char*>(&num), 4);
+          std::cout << "expiry: " << num << " s" << std::endl;
+
+          file.read(&ch, 1);
+
+          has_expiry = true;
+        } else if (static_cast<unsigned char>(ch) == OP_CODE_EXPIRETIMEMS) {
+          file.read(reinterpret_cast<char*>(&num), 8);
+          std::cout << "expiry: " << num << " ms" << std::endl;
+
+          file.read(&ch, 1);
+
+          has_expiry = true;
+        }
+
         file.read(&ch, 1);
         int nums_of_bytes = static_cast<int>(ch);
 
@@ -164,10 +190,11 @@ std::unordered_map<std::string, std::string> FileManagement::load_data() {
           value += ch;
         }
 
-        output[key] = value;
-
-        if (i != nums_of_bytes - 1) {
-          file.read(&ch, 1);
+        new_database[key] = value;
+        if (has_expiry) {
+          auto expiry = std::chrono::time_point<std::chrono::system_clock>(
+            std::chrono::milliseconds(num));
+          new_expiry[key] = expiry;
         }
       }
     }
@@ -176,5 +203,7 @@ std::unordered_map<std::string, std::string> FileManagement::load_data() {
   // Close the file
   file.close(); 
 
-  return output;
+  database.update(new_database, new_expiry);
+
+  print();
 }

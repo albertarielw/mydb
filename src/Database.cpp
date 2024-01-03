@@ -49,9 +49,13 @@ std::string Database::get(const std::string & key) {
     return database[key];
 }
 
-void Database::update(std::unordered_map<std::string, std::string> & data) {
-    for (auto &[key, value]: data) {
+void Database::update(std::unordered_map<std::string, std::string> & new_database, std::unordered_map<std::string, std::chrono::time_point<std::chrono::system_clock>> & new_expiry) {
+    for (auto &[key, value]: new_database) {
         database[key] = value;
+    }
+
+    for (auto &[key, value]: new_expiry) {
+        expiry[key] = value;
     }
 }
 

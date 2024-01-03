@@ -38,8 +38,7 @@ void Server::serve() {
 void Server::setup_server() {
   socket_manager.setup_socket_manager();
 
-  std::unordered_map<std::string, std::string> data = file_management.load_data();
-  database.update(data);
+  file_management.load_data(database);
 }
 
 void Server::close_server() {
