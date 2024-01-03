@@ -37,7 +37,7 @@ void Service::dispatcher(SocketManager & socket_manager, const int & socket_fd, 
     std::cout << "is keys service" << std::endl;
     if (is_get_all_keys_service(command, deserialized_input)) {
       std::cout << "is get all keys service" << std::endl;
-      get_all_keys_service(socket_manager, socket_fd, file_management);
+      get_all_keys_service(socket_manager, socket_fd, database);
     }
   }
 }
@@ -183,11 +183,14 @@ bool Service::is_get_all_keys_service(const std::string & command, const std::ve
   return command == "keys" && deserialized_input.size() >= 5 && deserialized_input[4] == "*";
 };
 
-void Service::get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, FileManagement & file_management) {
-  std::string resp = "";
-  encode_bulk_string(resp, file_management.readFileAndGetKeys());
-  resp = "*1\r\n" + resp;
-  std::cout << "resp is: " << resp << std::endl;
+void Service::get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, Database & database) {
+  std::vector<std::string> all_keys = database.get_all_keys();
+
+  std::string resp = "*" + std::to_string(all_keys.size()) + "\r\n";
+  for (int i = 0; i < all_keys.size(); ++i) {
+    encode_bulk_string(resp, all_keys[i]);
+  }
+  std::cout << "resp: " << resp << std::endl;
   socket_manager.send_msg(socket_fd, resp);
 };
 

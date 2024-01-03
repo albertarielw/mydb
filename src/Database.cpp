@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <vector>
 #include <unistd.h>
 #include <unordered_map>
 #include <chrono>
@@ -52,4 +53,12 @@ void Database::update(std::unordered_map<std::string, std::string> & data) {
     for (auto &[key, value]: data) {
         database[key] = value;
     }
+}
+
+std::vector<std::string> Database::get_all_keys() {
+    std::vector<std::string> all_keys;
+    for (auto &[key, value]: database) {
+        all_keys.push_back(key);
+    }
+    return all_keys;
 }

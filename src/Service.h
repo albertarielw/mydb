@@ -45,7 +45,7 @@ private:
   bool is_keys_service(const std::string & command);
   
   bool is_get_all_keys_service(const std::string & command, const std::vector<std::string> & deserialized_input);
-  void get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, FileManagement & file_management);
+  void get_all_keys_service(SocketManager & socket_manager, const int & socket_fd, Database & database);
 };
 
 #endif

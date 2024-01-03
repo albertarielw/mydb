@@ -2,6 +2,7 @@
 #define DATABASE_H
 
 #include <string>
+#include <vector>
 #include <chrono>
 #include <unordered_map>
 
@@ -12,6 +13,7 @@ public:
   std::string get(const std::string & key);
   
   void update(std::unordered_map<std::string, std::string> & data);
+  std::vector<std::string> get_all_keys();
 
 private:
   std::unordered_map<std::string, std::string> database;

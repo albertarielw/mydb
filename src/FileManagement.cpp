@@ -165,6 +165,10 @@ std::unordered_map<std::string, std::string> FileManagement::load_data() {
         }
 
         output[key] = value;
+
+        if (i != nums_of_bytes - 1) {
+          file.read(&ch, 1);
+        }
       }
     }
   }
