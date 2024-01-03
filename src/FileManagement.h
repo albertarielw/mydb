@@ -20,9 +20,6 @@ class FileManagement {
 public:
   FileManagement(Config & config);
   
-  std::vector<std::string> read();
-  void print();
-  std::string readFileAndGetKeys();
   void load_data(Database & database);
 
 private:
@@ -31,6 +28,7 @@ private:
 
   bool is_op_code(char & byte);
   std::string convert_op_codes_to_string(char & byte);
+  void debug_print();
 };
 
 #endif

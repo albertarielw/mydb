@@ -6,36 +6,6 @@
 #include "FileManagement.h"
 #include "Config.h"
 
-FileManagement::FileManagement(Config & config) {
-  database_directory = config.get_database_directory();
-  database_filename = config.get_database_filename();
-}
-
-std::vector<std::string> FileManagement::read() {
-
-  std::vector<std::string> content;
-
-  // Open the file
-  std::ifstream file(database_directory + "/" + database_filename);
-  
-  // Check if the file is open
-  if (!file.is_open()) {
-    std::cerr << "Error: Unable to open file." << std::endl;
-    return content; // Return an empty vector if the file cannot be opened
-  }
-
-  // Read the content line by line
-  std::string line;
-  while (std::getline(file, line)) {
-    content.push_back(line);
-  }
-
-  // Close the file
-  file.close();
-
-  return content;
-}
-
 bool FileManagement::is_op_code(char & byte) {
   std::vector<unsigned char> opCodes = {0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA};
   unsigned char byteValue = static_cast<unsigned char>(byte);
@@ -67,7 +37,7 @@ std::string FileManagement::convert_op_codes_to_string(char & byte) {
   }
 }
 
-void FileManagement::print() {
+void FileManagement::debug_print() {
   std::ifstream file(database_directory + "/" + database_filename);
 
   if (!file.is_open()) {
@@ -85,46 +55,6 @@ void FileManagement::print() {
 
   // Close the file
   file.close(); 
-}
-
-std::string FileManagement::readFileAndGetKeys() {
-  std::ifstream file(database_directory + "/" + database_filename);
-
-  if (!file.is_open()) {
-    std::cerr << "Error opening file" << std::endl;
-  }
-
-  // Read the file byte by byte
-  std::string key = "";
-  bool op_code_FB_found = false;
-  bool key_found = false;
-  char ch;
-  while (file.read(&ch, 1)) {
-    if (!op_code_FB_found) {
-      if (static_cast<unsigned char>(ch) == OP_CODE_RESIZEDB) {
-        op_code_FB_found = true;
-      }
-      continue;
-    }
-
-    if (!key_found) {
-      if (isalpha(ch)) {
-        key_found = true;
-        key += ch;
-      }
-      continue;
-    }
-
-    if (!isalpha(ch)) {
-      break;
-    }
-    key += ch;
-  }
-
-  // Close the file
-  file.close(); 
-
-  return key;
 }
 
 void FileManagement::load_data(Database & database) {
@@ -204,6 +134,4 @@ void FileManagement::load_data(Database & database) {
   file.close(); 
 
   database.update(new_database, new_expiry);
-
-  print();
 }
