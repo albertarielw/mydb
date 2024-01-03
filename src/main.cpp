@@ -18,6 +18,7 @@ int main(int argc, char ** argv) {
 
   Config config(config_args);
 
+  // TODO: remove after testing
   if (config.get_database_directory() != "" and config.get_database_filename() != "") {
     FileManagement file_management(config);
     file_management.print();
@@ -32,11 +33,4 @@ int main(int argc, char ** argv) {
 
   Server server(config);
   server.serve();
-
-  // FileManagement file_management(config);
-  // std::vector<std::string> content = file_management.read();
-
-  // for (int i = 0; i < content.size(); ++i) {
-  //   std::cout << content[i] << std::endl;
-  // }
 }
