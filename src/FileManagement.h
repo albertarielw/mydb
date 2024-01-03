@@ -22,6 +22,7 @@ public:
   std::vector<std::string> read();
   void print();
   std::string readFileAndGetKeys();
+  std::unordered_map<std::string, std::string> load_data();
 
 private:
   std::string database_directory, database_filename;

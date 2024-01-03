@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 #include "FileManagement.h"
 #include "Config.h"
 
@@ -78,7 +79,7 @@ void FileManagement::print() {
   char ch;
   while (file.read(&ch, 1)) {
     // Print the integer value of the character without converting to string
-    std::cout << ch << " " << static_cast<unsigned char>(ch) << " " << (is_op_code(ch) ? convert_op_codes_to_string(ch) : "") << std::endl;
+    std::cout << "char: " << static_cast<unsigned char>(ch) << ", int: " << static_cast<int>(ch) << ", " << (is_op_code(ch) ? convert_op_codes_to_string(ch) : "") << std::endl;
   }
   std::cout << std::endl;
 
@@ -124,4 +125,52 @@ std::string FileManagement::readFileAndGetKeys() {
   file.close(); 
 
   return key;
+}
+
+std::unordered_map<std::string, std::string> FileManagement::load_data() {
+  std::ifstream file(database_directory + "/" + database_filename);
+
+  if (!file.is_open()) {
+    std::cerr << "Error opening file" << std::endl;
+  }
+
+  std::unordered_map<std::string, std::string> output;
+  char ch;
+  while (file.read(&ch, 1)) {
+    if (static_cast<unsigned char>(ch) == OP_CODE_RESIZEDB) {
+      std::vector<int> length_encoding_descriptor;
+      for (int i = 0; i < 3; ++i) {
+        file.read(&ch, 1);
+        length_encoding_descriptor.push_back(static_cast<int>(ch));
+      }
+
+      int nums_of_keys = length_encoding_descriptor[0];
+      for (int i = 0; i < nums_of_keys; ++i) {
+        file.read(&ch, 1);
+        int nums_of_bytes = static_cast<int>(ch);
+
+        std::string key = "";
+        for (int j = 0; j < nums_of_bytes; ++j) {
+          file.read(&ch, 1);
+          key += ch;
+        }
+
+        file.read(&ch, 1);
+        nums_of_bytes = static_cast<int>(ch);
+
+        std::string value = "";
+        for (int j = 0; j < nums_of_bytes; ++j) {
+          file.read(&ch, 1);
+          value += ch;
+        }
+
+        output[key] = value;
+      }
+    }
+  }
+
+  // Close the file
+  file.close(); 
+
+  return output;
 }

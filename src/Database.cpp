@@ -47,3 +47,9 @@ std::string Database::get(const std::string & key) {
 
     return database[key];
 }
+
+void Database::update(std::unordered_map<std::string, std::string> & data) {
+    for (auto &[key, value]: data) {
+        database[key] = value;
+    }
+}
